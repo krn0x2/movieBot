@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movie Buff</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+	<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+</head>
+
+<body class="row">
+	<div class="col s6 offset-s3" id="mainScreen">
+		<h5 id="banner">IMDB top 250 Bot</h5>
+		<div class="section">
+			<div class="chatscreen">
+				<ul class="chats">
+				</ul>
+			</div>
+		</div>
+		<footer>
+			<input id="chat" type="text" placeholder="ask me something about movies..">
+		</footer>
+	</div>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+
+	// connect to the socket
+	var socket = io();
+
+	var section = $(".section"),
+	footer = $("footer"),
+	chatScreen = $(".chatscreen"),
+	textarea = $("#chat"),
+	chats = $(".chats");
+
+	function hideKeyboard(element) {
+	    element.attr('readonly', 'readonly'); // Force keyboard to hide on input field.
+	    element.attr('disabled', 'true'); // Force keyboard to hide on textarea field.
+	    setTimeout(function() {
+	        element.blur();  //actually close the keyboard
+	        // Remove readonly attribute after keyboard is hidden.
+	        element.removeAttr('readonly');
+	        element.removeAttr('disabled');
+	    }, 100);
+	};
+
+	socket.on('message', function(data){
+		console.log(data);
+		renderMessage(data,"bot");
+	});
+
+	textarea.keypress(function(e){
+		if(e.which == 13) {
+			e.preventDefault();
+			var msg = textarea.val().trim();
+			if(msg && msg.length){
+				socket.emit('message', msg);
+				renderMessage(msg,'me')
+			}
+			textarea.val('')
+			hideKeyboard($("input"));
+		}
+	});
+
+	function renderMessage(msg,who){
+		var li = $(
+			'<li class='+who+'>'+
+			'<div class="image">' +
+			'<div>bot</div>' +
+			'<b>'+who+'</b>' +
+			'</div>' +
+			'<p></p>' +
+			'</li>');
+		li.find('p').html(msg);
+		chats.append(li);
+		scrollToBottom();
+	}
+
+	function scrollToBottom(){
+		$(".section").animate({ scrollTop: $(".chatscreen").height()},1200);
+	}
+
+</script>
+</body>
+</html>
