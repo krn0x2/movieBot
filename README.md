@@ -1,24 +1,24 @@
 # movieBot
 Bot trivia for IMDB top 250
 
-Installation:
-npm install
+Installation:  
+npm install  
 
 
-Start:
-npm start
+Start:  
+npm start  
 
 
-Sample queries:
-should i watch the godfather?
-whats the plot for the matrix?
-when was Django Unchained released?
-starcast for Interstellar
-story of Snatch
-what is the genre of Inglourious Basterds?
+Sample queries:  
+should i watch the godfather?  
+whats the plot for the matrix?  
+when was Django Unchained released?  
+starcast for Interstellar  
+story of Snatch  
+what is the genre of Inglourious Basterds?  
 
 
-Trained on following movies:
+Trained on following movies:  
 The Shawshank Redemption
 The Godfather
 The Godfather: Part II
