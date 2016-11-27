@@ -21,7 +21,7 @@ var omdb = () => {
 	return {
 		getPlot:function(movie){
 			return getMovie(movie)
-					.then(({Title,Plot})=>`${Title}\n${Plot}`)
+					.then(({Title,Plot})=>`${Plot}`)
 		},
 		getReview:function(movie){
 			return getMovie(movie)
